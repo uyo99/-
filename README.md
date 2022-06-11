@@ -1,78 +1,168 @@
 #include<stdio.h>
+#include <string.h>      
 
-void print(int totalcredit, double totalpoint);
+void main() {
+	char name[10] = '\0'; //이름
+	char grade = '\0';    //학점 등급 grade
 
-#define NUMOFLECTURE 8
-
-char *lecture[NUMOFLECTURE][2] = {{"교선", "정보보호개론"},
-{"교선" , "네트워크 일반"},
-{"교선" , "기초운영체제 실습"},
-{"전선" , "정보통신개론"},
-{"전선" , "컴퓨터 운영체제"},
-{"전필" , "네트워크 구축"},
-{"전필" , "c언어 실습"},
-{"전필" , "컴퓨터 구조"}};
+	int scoreINF = 0; //정보보안 INFOSEC
+	int scoreSGL = 0; //정보통신 signal
+	int scoreNET = 0; //네트워크 일반 network
+	int scoreCOM = 0; //컴퓨터 구조 computer
+	int scoreCOS = 0; //컴퓨터 운영체계 computer OS?
+	int scoreNEP = 0; //네트워크 구축 실습 network Practice
+	int scoreCLG = 0; //C언어 C language?
+	int scoreBOS = 0; //기초 운영체제 실 습
 
 
-char *GRADE[] = {"F","D0","D+","C0","C+","B0","C+","A0","A+"};
 
-double GRADEPOINT[] = {0.0, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5};
+	int scoreTotal = 0;         // 총점
+	float scoreAverage = 0.0F;  // 평균
 
-int point[NUMOFLECTURE][2];
-int grade[NUMOFLECTURE];
+	char menuChoice = '\0';     // 메뉴 선택
 
-int main(void)
-{
-double totalpoint = 0.0;
-int totalcredit = 0;
-int i=0;
+	char temp[256] = "\0"; //임력값 임시저장
+	int len = 0;           // 입력값 길이
 
-printf("*************************************************************\n");
-printf("\tA+ : 95 ~ 100, A0 : 90 ~ 94 \n");
-printf("\tB+ : 85 ~  89, B0 : 80 ~ 84 \n");
-printf("\tC+ : 75 ~  79, C0 : 70 ~ 74 \n");
-printf("\tD+ : 65 ~  69, D0 : 60 ~ 64 \n");
-printf("\tF  : 59이하 ");
-printf("\n*************************************************************\n");
 
-printf("입력 예>>\n");
-printf("%6s%30s >>", lecture[0][0], lecture[0][1]);
-printf(">> 2(학점) 96(점수)\n\n");
 
-printf("지금부터 입력하세요.>>\n");
+	do
+	{
+		// 메뉴 출력
+		printf("*** 성적관리 프로그램 ***\n");
+		printf("\n");
+		printf("1. 학생 성적 입력\n");
+		printf("2. 성적 확인\n");
+		printf("\n");
+		printf("Q. 프로그램 종료\n");
+		printf("\n");
+		printf("번호를 입력하세요 : ");
 
-for(i=0; i<NUMOFLECTURE; i++)
-{
-printf("%6s%30s >> ", lecture[i][0], lecture[i][1]);
-scanf("%d %d", &point[i][0], &point[i][1]);
-grade[i] = point[i][1] / 5;
-totalpoint += point[i][0] * GRADEPOINT[grade[i]-11];
-totalcredit += point[i][0];
+
+		// 메뉴 선택
+		menuChoice = getchar();
+
+		switch (menuChoice)
+		{
+		case '1':
+		{
+
+
+			//학생 입력 부분
+
+			do
+			{
+				printf("\n*************************************************************\n");
+				printf("이름 입력 :");
+				scanf_s("%s", temp, sizeof(temp));
+				len = strlen(temp) + 1;
+
+				if (len > sizeof(name))
+					printf("너무 긴 이름을 입력하셨습니다.\n");
+				else
+
+					strcpy_s(name, sizeof(name), temp);
+			} while (len > sizeof(name));
+
+			printf("정보보안개론 입력 :");
+			scanf_s("%d", &scoreINF);
+
+			printf("정보통신개론 입력 :");
+			scanf_s("%d", &scoreSGL);
+
+			printf("네트워크 일반 입력 :");
+			scanf_s("%d", &scoreNET);
+
+			printf("컴퓨터 구조 입력 :");
+			scanf_s("%d", &scoreCOM);
+
+			printf("컴퓨터 운영체계 입력 :");
+			scanf_s("%d", &scoreCOS);
+
+			printf("네트워크 구축 실습 입력 :");
+			scanf_s("%d", &scoreNEP);
+
+			printf("C언어 입력 :");
+			scanf_s("%d", &scoreCLG);
+
+			printf("기초 운영체제 실습 입력 :");
+			scanf_s("%d", &scoreBOS);
+			printf("\n*************************************************************\n");
+
+			getchar();
+
+		}
+
+		break;
+
+
+
+		case '2':
+		{
+
+
+			// 총점 계산
+			scoreTotal = scoreINF + scoreSGL + scoreNET + scoreCOM + scoreCOS + scoreNEP + scoreCLG + scoreBOS;
+
+			// 평균 계산
+			//scoreAverage = (float) scoreTotal / 8;
+
+			// 소수점 아래 값 손실
+			scoreAverage = scoreTotal / 8;
+
+
+
+			// 등급 구하기
+			if (scoreAverage >= 95)
+				grade = 'A+';
+			else if (scoreAverage >= 90)
+				grade = 'A';
+			else if (scoreAverage >= 85)
+				grade = 'B+';
+			else if (scoreAverage >= 80)
+				grade = 'B';
+			else if (scoreAverage >= 75)
+				grade = 'C+';
+			else if (scoreAverage >= 70)
+				grade = 'C';
+			else if (scoreAverage >= 65)
+				grade = 'D+';
+			else if (scoreAverage >= 60)
+				grade = 'D';
+			else
+				grade = 'F';
+
+
+
+			// 화면 출력
+			printf("\n*************************************************************\n");
+			printf("%s의 성적\n", name);
+			printf("총점 : %d\n평균 : %f\n\n", scoreTotal, scoreAverage);
+			printf("등급 : %c\n", grade);
+			printf("보안  점수 : %d\n\n", scoreINF);
+			printf("통신  점수 : %d\n\n", scoreSGL);
+			printf("네트  점수 : %d\n\n", scoreNET);
+			printf("컴구  점수 : %d\n\n", scoreCOM);
+			printf("컴운  점수 : %d\n\n", scoreCOS);
+			printf("네구  점수 : %d\n\n", scoreNEP);
+			printf("C언어 점수 : %d\n\n", scoreCLG);
+			printf("기운  점수 : %d\n\n", scoreBOS);
+			printf("\n*************************************************************\n");
+
+			getchar();
+		}
+		break;
+
+		case 'Q':
+		case 'q':
+			break;
+
+		default:
+			printf("잘못 입력하셨습니다.\n\n");
+			getchar();
+		}
+	} while (menuChoice != 'Q' && menuChoice != 'q');
 }
 
-print(totalcredit, totalpoint);
 
-return 0;
-}
 
-void print(int totalcredit, double totalpoint)
-{
-int i;
-
-printf("\n*************************************************************\n");
-printf("%7s%18s%17s%18s\n", "구분", "과 목 명", "학점", "성적");
-printf("\n*************************************************************\n");
-
-for(i=0; i<NUMOFLECTURE; i++)
-{
-printf("%7s%23s%12d%16s\n", lecture[i][0], lecture[i][1],point[i][0],GRADE[grade[i]-11]);
-}
-
-printf("\n*************************************************************\n");
-printf("%7s%18s%17s%18s\n", "학점계", "평 점 계", "평점평균", "백분율환산");
-printf("\n*************************************************************\n");
-
-printf("%7d%17.1f%14.2f/4.5%17.1f\n", totalcredit, totalpoint,
-(totalpoint/totalcredit), 100*(totalpoint/totalcredit)/4.5);
-printf("\n*************************************************************\n");
-}
